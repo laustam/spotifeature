@@ -4,8 +4,8 @@ import base64
 import pickle
 import os
 
-CLIENT_ID = "3f09ed702b9147bc8de7113eb5e29635"
-CLIENT_SECRET = "e885db6908364baeb44f3a5922c485af"
+CLIENT_ID = "dee2e80b810a4654a8f6b021582580bf"
+CLIENT_SECRET = "76f0e40443d046058317e4c6412d478c"
 
 URL_API = "https://api.spotify.com/v1/"
 URL_ACCOUNTS = 'https://accounts.spotify.com/'
@@ -18,7 +18,7 @@ DIR_CACHE = 'cached_files'
 
 THRESH_EXPIRATION = 60
 
-def get_track_features(track_id: str):
+def get_track_features(track_ids: list[str]):
 
     auth_token = get_auth_token()
 
@@ -26,7 +26,7 @@ def get_track_features(track_id: str):
         'Authorization': 'Bearer ' + auth_token.token
     }
 
-    url = URL_API + EP_AUDIO_FEATURES + track_id
+    url = URL_API + EP_AUDIO_FEATURES + '?ids=' + ','.join(track_ids)
     response = requests.get(url, headers=headers)
     response.raise_for_status()
 
