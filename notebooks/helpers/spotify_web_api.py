@@ -42,7 +42,7 @@ class SpotifyAuthToken:
         self.expires_at = time.time() + int(response.json()['expires_in'])
         
 
-def get_auth_token():
+def get_auth_token() -> SpotifyAuthToken:
 
     os.makedirs(DIR_CACHE, exist_ok=True)
     path_auth_token = os.path.join(DIR_CACHE, FILE_AUTH)
@@ -63,7 +63,7 @@ def get_auth_token():
     return auth_token
     
 
-def api_request_auth_token():
+def api_request_auth_token() -> SpotifyAuthToken:
     
     credentials = base64.b64encode(f'{CLIENT_ID}:{CLIENT_SECRET}'.encode()).decode('utf-8')
     headers = {
