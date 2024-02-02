@@ -7,6 +7,10 @@ data/raw/playlists/*
 data/*
 !data/raw/.gitkeep
 !data/processed/.gitkeep
+!data/processed/playlists1000000.pkl
+!data/processed/unique_track_ids1000000.pkl
+!data/processed/playlists_overview1000000.pkl
+!data/processed/playlists_metrics1000000.pkl
 
 # from lennart
 notebooks/cached_files/
