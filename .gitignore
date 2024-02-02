@@ -1,3 +1,7 @@
+# from dovydas
+data/raw/playlists/*
+!data/raw/playlists/README.md
+
 # from laura
 .DS_Store
 data/*
