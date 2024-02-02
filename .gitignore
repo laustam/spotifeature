@@ -1,3 +1,14 @@
+# from dovydas
 data/raw/playlists/*
-
 !data/raw/playlists/README.md
+
+# from laura
+.DS_Store
+data/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# from lennart
+notebooks/cached_files/
+**/__pycache__
+**/.DS_Store
