@@ -24,29 +24,28 @@ def process_playlists(playlist_data, audio_features, start_index, end_index, pid
     for i in range(start_index, end_index):
         playlist = playlist_data[i]
 
-        # Process the playlist and calculate metrics
         playlist_features = pd.DataFrame(columns=audio_features.columns.tolist())
         new_index = pd.Index.union(playlist_features.index, playlist['track_ids'])
         playlist_features = playlist_features.reindex(new_index)
 
+        # Add track information to features table
         for j, track_id in enumerate(playlist["track_ids"]):
             if track_id not in audio_features.index:
-                print("Playlist {} : missing audio features for track {}/{} with id = {}".format(playlist["pid"], i, playlist["num_tracks"], track_id))
+                print(f'Playlist {playlist["pid"]} : missing audio features for track {j}/{playlist["num_tracks"]} with id = {track_id}')
                 continue
 
             track_features = pd.DataFrame(audio_features.loc[track_id]).T
             playlist_features = pd.concat([playlist_features if not playlist_features.empty else None, track_features], axis=0)
 
+        # Use features table to get metrics
         playlist_info = pd.DataFrame(data={k: [v] for k, v in playlist.items() if k != "track_ids"})
         playlist_info.columns = pd.MultiIndex.from_product([['metadata'], playlist_info.columns])
         playlist_metrics = pd.concat([playlist_info, get_playlist_metrics(playlist_features)], axis=1)
 
-        # Add the processed playlist to the local dataframe
         local_playlists_metrics = pd.concat([local_playlists_metrics, playlist_metrics], ignore_index=True)
 
         if i % 10 == 0:
             i_normalized = i - start_index
-            print(f'[{pid}]: {i_normalized / (end_index - start_index) * 100:.1f}% - {i_normalized}/{end_index - start_index}', end='\r')
-
+            print(f'[{pid}]: {i_normalized / (end_index - start_index) * 100:>5.1f}% ({i_normalized:>5}/{end_index - start_index:>5})', end='\r')
 
     return local_playlists_metrics
